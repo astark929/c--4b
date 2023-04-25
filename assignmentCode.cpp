@@ -81,40 +81,13 @@ public:
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
         }
     }
-};
+    void addNewTransaction(Object obj[], int& num) {
+    if (num < 25) { // check if array is full
+        // prompt user for input of transaction values
+            std::string ISBN = "no value";
+            std::string author = "no value", title_book = "no value", usedornot = "no value";
+            std::string enrolled = "no value", prices_book = "no value", required = "no value";
 
-
-
-int main(){
-
-    //title
-    //cout << "\x1b[2J"; //clearing terminal for VS code
-    flush();   //if your not using VS code, pls use this code
-
-    objectHandler handler;
-    string ISBN = "no value";
-    std::string author = "no value", title_book = "no value", usedornot = "no value";
-    string enrolled = "no value", prices_book = "no value", required = "no value";
-    int timelock = 0;
-    title_screen();
-    cout << "\n\n\n ";
-    cin.get();
-
-
-//-----------------------------------------------------------------------------------------------------------------
-    //input
-    //cout << "\x1b[2J"; //clearing terminal for VS code
-    flush();   //if your not using VS code, pls use this code
-    main_menu_screen();
-    char choice;
-    do {
-    cin >> choice;
-
-    switch (choice) {
-    case '1': 
-    {
-        while(timelock <= 0) {
-            //cout << "\x1b[2J";
             flush();                // supposed to help clear the terminal screen 
             title();
             cout <<"\t<<<input screen>>>"<<endl;
@@ -180,9 +153,49 @@ int main(){
                 break;
             }
             cout << "\n";
+        // call addTransaction function to add new transaction to array
+        addTransaction(obj, num, ISBN, author, title_book, enrolled, required, prices_book, usedornot);
+        cout << "Transaction added successfully." << endl;
+    } else {
+        cout << "sorry the storage to store your transaction is currently full." << endl;
+    }
+}
 
-            handler.addTransaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
 
+};
+
+
+
+int main(){
+
+    //title
+    //cout << "\x1b[2J"; //clearing terminal for VS code
+    flush();   //if your not using VS code, pls use this code
+
+    objectHandler handler;
+    string ISBN = "no value";
+    std::string author = "no value", title_book = "no value", usedornot = "no value";
+    string enrolled = "no value", prices_book = "no value", required = "no value";
+    int timelock = 0;
+    title_screen();
+    cout << "\n\n\n ";
+    cin.get();
+
+
+//-----------------------------------------------------------------------------------------------------------------
+    //input
+    //cout << "\x1b[2J"; //clearing terminal for VS code
+    flush();   //if your not using VS code, pls use this code
+    main_menu_screen();
+    char choice;
+    do {
+    cin >> choice;
+
+    switch (choice) {
+    case '1': 
+    {
+        while(timelock <= 0) {
+            addNewTransaction();
             cout << "please press 'ENTER' to continue";
             cin.get();
             break;
