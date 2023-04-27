@@ -73,6 +73,7 @@ public:
         for (int i = 0; i < tempNum; i++) {
             cout << output_screen(object[i].ISBN, object[i].author, object[i].title_book, 
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
+            cout << "\n" <<endl;
         }
     }
     void addTransaction(Transaction transaction) {
@@ -95,6 +96,10 @@ public:
 int main(){
 
     //title
+    objectHandler handler;
+    Transaction tran;
+
+
     flush();   //if your not using VS code, pls use this code
     string ISBN = "no value";
     std::string author = "no value", title_book = "no value", usedornot = "no value";
@@ -110,7 +115,6 @@ int main(){
     flush();   //if your not using VS code, pls use this code
     main_menu_screen();
     char choice;
-    int arrnum = 0;
     do {
     cin >> choice;
 
@@ -125,7 +129,6 @@ int main(){
         cout << temped << endl;
         while(whileint == 0){
         if (!temped.empty() && temped.at(0) == 'y'){
-            //handler.addNewTransaction(ISBN, title_book, author, enrolled, prices_book, required, usedornot, arrnum);
             while(timelock <= 0) {
             //cout << "\x1b[2J";
             flush();                // supposed to help clear the terminal screen 
@@ -194,9 +197,7 @@ int main(){
             }
             cout << "\n";
 
-            objectHandler handler;
 
-            Transaction tran;
             tran.ISBN = ISBN;
             tran.author = author;
             tran.title_book = title_book;
@@ -204,14 +205,12 @@ int main(){
             tran.enrolled = enrolled;
             tran.prices_book = prices_book;
             tran.required = required;
-            //transactions[arrnum] = tran;
             //Transaction transaction = Transaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
             Transaction transaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
 
 
             handler.addTransaction(transaction);
-            //handler.addObject(transaction);
-
+/*
             vector<Transaction> transactions = handler.getTransactions();
             for (int i = 0; i < transactions.size(); i++) {
                 cout << "Transaction " << i + 1 << ":" << endl;
@@ -222,8 +221,8 @@ int main(){
                 cout << "Enrolled: " << transactions[i].enrolled << endl;
                 cout << "Price: " << transactions[i].prices_book << endl;
                 cout << "Required: " << transactions[i].required << endl;
-    }
-
+                }
+*/
 
 
             break;
@@ -378,6 +377,16 @@ int main(){
         timelock++;
         break;
         //the 4th case brings the user to the exit screen and terminates the code
+    }
+
+    case '5':
+    {
+        handler.printObject();
+        cout << "press enter to continue back to the main menu"<< endl;
+        cin.get();
+        flush();
+        main_menu_screen();
+        continue;
     }
 
     default:
