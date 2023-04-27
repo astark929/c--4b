@@ -169,18 +169,30 @@ int main(){
     flush();   //if your not using VS code, pls use this code
     main_menu_screen();
     char choice;
+    int arrnum = 0;
     do {
     cin >> choice;
 
     switch (choice) {
     case '1': 
     {
-        while(timelock <= 0) {
-            addNewTransaction();
-            cout << "please press 'ENTER' to continue";
-            cin.get();
+        cout << "would you like to make a new purchase? (yes or no)" << endl;
+        string temped;
+        int whileint =0;
+        getline(cin, temped);
+        while(whileint == 0){
+        if (temped.at(0) == 'y'){
+        handler.addNewTransaction(handler, arrnum);
+        }
+        else if (temped.at(0) == 'n') {
             break;
         }
+        else {
+            cout << "sorry the input caused an error, please try again" <<endl;
+        }
+        }
+        cout << "please press 'ENTER' to continue";
+        cin.get();  
         //timelock++;
         flush();
         main_menu_screen();
