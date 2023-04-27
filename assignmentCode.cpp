@@ -34,40 +34,41 @@ struct Transaction {
 class objectHandler {
 private:
     Transaction object [25];
-    int num;
+    int tempNum;
 public:
     objectHandler() {
         tempNum = 0;
     }
     void addTransaction(string ISBN, string author, string title_book, string usedornot, string enrolled, string prices_book, string required) {
+
         if (tempNum < 25) {
             // prompt user to enter transaction data
             // and store it in the next available index of the array
             cout << "Enter ISBN: "<< endl;
-            cin >> object[num].ISBN;
+            cin >> object[tempNum].ISBN;
 
             cout << "Enter title_book: "<< endl;
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::getline(std::cin, object[num].title_book);
+            std::getline(std::cin, object[tempNum].title_book);
 
             cout << "Enter author: ";
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clears previous inputs that may claug the input status allowing the next input to not be skipped
-            std::getline(std::cin, object[num].author);
+            std::getline(std::cin, object[tempNum].author);
 
 
             cout << "Enter usedornot: "<< endl;
-            cin >> object[num].usedornot;
+            cin >> object[tempNum].usedornot;
 
             cout << "Enter enrolled: " << endl;
-            cin >> object[num].enrolled;
+            cin >> object[tempNum].enrolled;
 
             cout << "Enter prices_book: "<< endl;
-            cin >> object[num].prices_book;
+            cin >> object[tempNum].prices_book;
 
             cout << "Enter required: "<< endl;
-            cin >> object[num].required;
+            cin >> object[tempNum].required;
 
-            num++;
+            tempNum++;
         } 
         else {
             cout << "the maximum number of transactions has been reached." << endl;
@@ -76,7 +77,7 @@ public:
     void printObject() {
         // loop through the object array and print each instance within the array
         cout << "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired" << endl;
-        for (int i = 0; i < num; i++) {
+        for (int i = 0; i < tempNum; i++) {
             cout << output_screen(object[i].ISBN, object[i].author, object[i].title_book, 
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
         }
@@ -96,62 +97,40 @@ public:
             userChoice();
             cout << "enter the ISBN (barcode) :   " << endl;
             cin >> ISBN;
-            if (tolower(ISBN) == "quit"){
-                break;
-            }       // this if statement, and other like-if statements just help make sure if the input isn't quit
-                    // if input is quit, then it terminates the program
             cout << "\n";
 
             userChoice();
             cout << "enter the title of the book \n";
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clears previous inputs that may claug the input status allowing the next input to not be skipped
             std::getline(std::cin, title_book);
-            if (tolower(title_book) == "quit"){
-                break;
-            }
             cout << "\n";
 
             userChoice();
             cout << "enter the authors name " << endl;
             //cin.ignore(numeric_limits<streamsize>::max(), '\n');
             std::getline(std::cin, author);
-            if (tolower(author) == "quit"){
-                break;
-            }
             cout << "\n";
             
             userChoice();
             cout << "enter the number of students in your class " << endl;
             cin >> enrolled;
             enrolled = whileloop(enrolled);                            //these while loop makes sure the input is greater than 0
-            if (tolower(enrolled) == "quit"){
-                break;
-            }
             cout << "\n";
 
             userChoice();
             cout << "enter the prices of the book " << endl;
             cin >> prices_book;
             prices_book = whileloop(prices_book);                     //checks if the number is greater than 0
-            if (tolower(prices_book) == "quit"){
-                break;
-            }
             cout << "\n";
 
             userChoice();
             cout << "enter 'new' if you want to book to be new, otherwise type something else " << endl;
             cin >> usedornot;
-            if (tolower(usedornot) == "quit"){
-                break;
-            }
             cout << "\n";
 
             userChoice();
             cout << "enter 'required' if the book is required, otherwise type something else " << endl;
             cin >> required;
-            if (tolower(required) == "quit"){
-                break;
-            }
             cout << "\n";
         // call addTransaction function to add new transaction to array
         addTransaction(obj, num, ISBN, author, title_book, enrolled, required, prices_book, usedornot);
