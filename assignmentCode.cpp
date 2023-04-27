@@ -83,8 +83,8 @@ public:
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
         }
     }
-    void addNewTransaction(objectHandler obj[], int& num) {
-    if (num < 25) { // check if array is full
+    void createNewTransaction(int arrnum) {
+    if (tempNum < 25) { // check if array is full
         // prompt user for input of transaction values
             std::string ISBN = "no value";
             std::string author = "no value", title_book = "no value", usedornot = "no value";
@@ -150,7 +150,6 @@ public:
 int main(){
 
     //title
-    //cout << "\x1b[2J"; //clearing terminal for VS code
     flush();   //if your not using VS code, pls use this code
 
     objectHandler handler;
@@ -165,7 +164,6 @@ int main(){
 
 //-----------------------------------------------------------------------------------------------------------------
     //input
-    //cout << "\x1b[2J"; //clearing terminal for VS code
     flush();   //if your not using VS code, pls use this code
     main_menu_screen();
     char choice;
@@ -182,7 +180,8 @@ int main(){
         getline(cin, temped);
         while(whileint == 0){
         if (temped.at(0) == 'y'){
-        handler.addNewTransaction(handler, arrnum);
+            //handler.addNewTransaction(ISBN, title_book, author, enrolled, prices_book, required, usedornot, arrnum);
+            handler.createNewTransaction(arrnum);
         }
         else if (temped.at(0) == 'n') {
             break;
