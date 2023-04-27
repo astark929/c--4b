@@ -39,7 +39,7 @@ public:
     objectHandler() {
         tempNum = 0;
     }
-    
+    /*
     void addTransaction(string ISBN, string author, string title_book, string usedornot, string enrolled, string prices_book, string required) {
 
         if (tempNum < 25) {
@@ -75,6 +75,8 @@ public:
             cout << "the maximum number of transactions has been reached." << endl;
         }
     }
+    */
+
     void printObject() {
         // loop through the object array and print each instance within the array
         cout << "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired" << endl;
@@ -83,6 +85,7 @@ public:
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
         }
     }
+    /*
     void createNewTransaction(int& arrnum) {
     if (tempNum < 25) { // check if array is full
         // prompt user for input of transaction values
@@ -142,7 +145,7 @@ public:
         cout << "sorry the storage to store your transaction is currently full." << endl;
     }
 }
-
+*/
 };
 
 
@@ -153,7 +156,6 @@ int main(){
     flush();   //if your not using VS code, pls use this code
 
     objectHandler handler;
-    Transaction tran;
     string ISBN = "no value";
     std::string author = "no value", title_book = "no value", usedornot = "no value";
     string enrolled = "no value", prices_book = "no value", required = "no value";
@@ -250,7 +252,7 @@ int main(){
             }
             cout << "\n";
 
-            
+            Transaction tran;
             tran.ISBN = ISBN;
             tran.author = author;
             tran.title_book = title_book;
@@ -258,6 +260,7 @@ int main(){
             tran.enrolled = enrolled;
             tran.prices_book = prices_book;
             tran.required = required;
+            transactions[numarr] = tran;
 
             break;
             }
