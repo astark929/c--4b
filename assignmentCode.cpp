@@ -83,7 +83,7 @@ public:
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
         }
     }
-    void createNewTransaction(int arrnum) {
+    void createNewTransaction(int& arrnum) {
     if (tempNum < 25) { // check if array is full
         // prompt user for input of transaction values
             std::string ISBN = "no value";
@@ -135,13 +135,13 @@ public:
             cout << "\n";
         // call addTransaction function to add new transaction to array
         addTransaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
+        arrnum++;
         cout << "Transaction added successfully." << endl;
     } 
     else {
         cout << "sorry the storage to store your transaction is currently full." << endl;
     }
 }
-
 
 };
 
@@ -153,6 +153,7 @@ int main(){
     flush();   //if your not using VS code, pls use this code
 
     objectHandler handler;
+    Transaction tran;
     string ISBN = "no value";
     std::string author = "no value", title_book = "no value", usedornot = "no value";
     string enrolled = "no value", prices_book = "no value", required = "no value";
@@ -181,7 +182,85 @@ int main(){
         while(whileint == 0){
         if (temped.at(0) == 'y'){
             //handler.addNewTransaction(ISBN, title_book, author, enrolled, prices_book, required, usedornot, arrnum);
-            handler.createNewTransaction(arrnum);
+            while(timelock <= 0) {
+            //cout << "\x1b[2J";
+            flush();                // supposed to help clear the terminal screen 
+            title();
+            cout <<"\t<<<input screen>>>"<<endl;
+            cout << "\n";
+            
+            userChoice();
+            cout << "enter the ISBN (barcode) :   " << endl;
+            cin >> ISBN;
+            if (tolower(ISBN) == "quit"){
+                break;
+            }       // this if statement, and other like-if statements just help make sure if the input isn't quit
+                    // if input is quit, then it terminates the program
+            cout << "\n";
+
+            userChoice();
+            cout << "enter the title of the book \n";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clears previous inputs that may claug the input status allowing the next input to not be skipped
+            std::getline(std::cin, title_book);
+            if (tolower(title_book) == "quit"){
+                break;
+            }
+            cout << "\n";
+
+            userChoice();
+            cout << "enter the authors name " << endl;
+            //cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            std::getline(std::cin, author);
+            if (tolower(author) == "quit"){
+                break;
+            }
+            cout << "\n";
+            
+            userChoice();
+            cout << "enter the number of students in your class " << endl;
+            cin >> enrolled;
+            enrolled = whileloop(enrolled);                            //these while loop makes sure the input is greater than 0
+            if (tolower(enrolled) == "quit"){
+                break;
+            }
+            cout << "\n";
+
+            userChoice();
+            cout << "enter the prices of the book " << endl;
+            cin >> prices_book;
+            prices_book = whileloop(prices_book);                     //checks if the number is greater than 0
+            if (tolower(prices_book) == "quit"){
+                break;
+            }
+            cout << "\n";
+
+            userChoice();
+            cout << "enter 'new' if you want to book to be new, otherwise type something else " << endl;
+            cin >> usedornot;
+            if (tolower(usedornot) == "quit"){
+                break;
+            }
+            cout << "\n";
+
+            userChoice();
+            cout << "enter 'required' if the book is required, otherwise type something else " << endl;
+            cin >> required;
+            if (tolower(required) == "quit"){
+                break;
+            }
+            cout << "\n";
+
+            
+            tran.ISBN = ISBN;
+            tran.author = author;
+            tran.title_book = title_book;
+            tran.usedornot = usedornot;
+            tran.enrolled = enrolled;
+            tran.prices_book = prices_book;
+            tran.required = required;
+
+            break;
+            }
         }
         else if (temped.at(0) == 'n') {
             break;
@@ -189,14 +268,14 @@ int main(){
         else {
             cout << "sorry the input caused an error, please try again" <<endl;
         }
-        }
         cout << "please press 'ENTER' to continue";
         cin.get();  
-        //timelock++;
+        timelock++;
         flush();
         main_menu_screen();
         continue;
         //this is the first case, the input / output screen
+    }
     }
 
     case '2': //output stuff
