@@ -39,6 +39,7 @@ public:
     objectHandler() {
         tempNum = 0;
     }
+    
     void addTransaction(string ISBN, string author, string title_book, string usedornot, string enrolled, string prices_book, string required) {
 
         if (tempNum < 25) {
@@ -133,9 +134,10 @@ public:
             cin >> required;
             cout << "\n";
         // call addTransaction function to add new transaction to array
-        addTransaction(obj, num, ISBN, author, title_book, enrolled, required, prices_book, usedornot);
+        addTransaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
         cout << "Transaction added successfully." << endl;
-    } else {
+    } 
+    else {
         cout << "sorry the storage to store your transaction is currently full." << endl;
     }
 }
