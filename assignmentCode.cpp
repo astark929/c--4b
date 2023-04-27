@@ -29,8 +29,33 @@ string tolower (string value);
 
 struct Transaction {
     string ISBN, author, title_book, usedornot, enrolled , prices_book , required;
-    // declaring variables for future use
+    int quantity;
+    double price;
+
+    Transaction() {
+        ISBN = "";
+        author = "";
+        title_book = "";
+        usedornot = "";
+        enrolled = "";
+        prices_book = "";
+        required = "";
+        quantity = 0;
+        price = 0.0;
+    }
+
+    Transaction(string ISBN, string author, string title_book, string usedornot, string enrolled, 
+                string prices_book, string required) {
+        this->ISBN = ISBN;
+        this->author = author;
+        this->title_book = title_book;
+        this->usedornot = usedornot;
+        this->enrolled = enrolled;
+        this->prices_book = prices_book;
+        this->required = required;
+    }
 };
+
 
 class objectHandler {
 private:
@@ -89,7 +114,13 @@ public:
         }
     }
     void addTransaction(Transaction transaction) {
-      transactions.push_back(transaction);
+        if (tempNum < 25) {
+            object[tempNum] = transaction;
+            tempNum++;
+        }
+        else {
+            cout << "Error: transaction list is already full." << endl;
+        }
     }
 
     vector<Transaction> getTransactions() {
@@ -190,11 +221,13 @@ int main(){
     case '1': 
     {
         cout << "would you like to make a new purchase? (yes or no)" << endl;
-        string temped;
-        int whileint =0;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        string temped = "";
+        int whileint = 0;
         getline(cin, temped);
+        cout << temped << endl;
         while(whileint == 0){
-        if (temped.at(0) == 'y'){
+        if (!temped.empty() && temped.at(0) == 'y'){
             //handler.addNewTransaction(ISBN, title_book, author, enrolled, prices_book, required, usedornot, arrnum);
             while(timelock <= 0) {
             //cout << "\x1b[2J";
@@ -275,8 +308,10 @@ int main(){
             tran.prices_book = prices_book;
             tran.required = required;
             //transactions[arrnum] = tran;
-            Transaction transaction = Transaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
-            
+            //Transaction transaction = Transaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
+            Transaction transaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
+
+
             handler.addTransaction(transaction);
             //handler.addObject(transaction);
 
@@ -305,12 +340,13 @@ int main(){
         }
         cout << "please press 'ENTER' to continue";
         cin.get();  
-        timelock++;
+        //timelock++;
         flush();
         main_menu_screen();
-        continue;
+        whileint++;
         //this is the first case, the input / output screen
     }
+        continue;
     }
 
     case '2': //output stuff
