@@ -67,44 +67,6 @@ public:
     objectHandler() {
         tempNum = 0;
     }
-    /*
-    void addTransaction(string ISBN, string author, string title_book, string usedornot, string enrolled, string prices_book, string required) {
-
-        if (tempNum < 25) {
-            // prompt user to enter transaction data
-            // and store it in the next available index of the array
-            cout << "Enter ISBN: "<< endl;
-            cin >> object[tempNum].ISBN;
-
-            cout << "Enter title_book: "<< endl;
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::getline(std::cin, object[tempNum].title_book);
-
-            cout << "Enter author: ";
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clears previous inputs that may claug the input status allowing the next input to not be skipped
-            std::getline(std::cin, object[tempNum].author);
-
-
-            cout << "Enter usedornot: "<< endl;
-            cin >> object[tempNum].usedornot;
-
-            cout << "Enter enrolled: " << endl;
-            cin >> object[tempNum].enrolled;
-
-            cout << "Enter prices_book: "<< endl;
-            cin >> object[tempNum].prices_book;
-
-            cout << "Enter required: "<< endl;
-            cin >> object[tempNum].required;
-
-            tempNum++;
-        } 
-        else {
-            cout << "the maximum number of transactions has been reached." << endl;
-        }
-    }
-    */
-
     void printObject() {
         // loop through the object array and print each instance within the array
         cout << "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired" << endl;
@@ -126,71 +88,6 @@ public:
     vector<Transaction> getTransactions() {
       return transactions;
     }
-
-
-    //void TransactionList::addTransaction(Transaction transaction) {transactions.push_back(transaction);}
-
-    /*
-    void createNewTransaction(int& arrnum) {
-    if (tempNum < 25) { // check if array is full
-        // prompt user for input of transaction values
-            std::string ISBN = "no value";
-            std::string author = "no value", title_book = "no value", usedornot = "no value";
-            std::string enrolled = "no value", prices_book = "no value", required = "no value";
-
-            flush();                // supposed to help clear the terminal screen 
-            title();
-            cout <<"\t<<<input screen>>>"<<endl;
-            cout << "\n";
-            
-            userChoice();
-            cout << "enter the ISBN (barcode) :   " << endl;
-            cin >> ISBN;
-            cout << "\n";
-
-            userChoice();
-            cout << "enter the title of the book \n";
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clears previous inputs that may claug the input status allowing the next input to not be skipped
-            std::getline(std::cin, title_book);
-            cout << "\n";
-
-            userChoice();
-            cout << "enter the authors name " << endl;
-            //cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            std::getline(std::cin, author);
-            cout << "\n";
-            
-            userChoice();
-            cout << "enter the number of students in your class " << endl;
-            cin >> enrolled;
-            enrolled = whileloop(enrolled);                            //these while loop makes sure the input is greater than 0
-            cout << "\n";
-
-            userChoice();
-            cout << "enter the prices of the book " << endl;
-            cin >> prices_book;
-            prices_book = whileloop(prices_book);                     //checks if the number is greater than 0
-            cout << "\n";
-
-            userChoice();
-            cout << "enter 'new' if you want to book to be new, otherwise type something else " << endl;
-            cin >> usedornot;
-            cout << "\n";
-
-            userChoice();
-            cout << "enter 'required' if the book is required, otherwise type something else " << endl;
-            cin >> required;
-            cout << "\n";
-        // call addTransaction function to add new transaction to array
-        addTransaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
-        arrnum++;
-        cout << "Transaction added successfully." << endl;
-    } 
-    else {
-        cout << "sorry the storage to store your transaction is currently full." << endl;
-    }
-}
-*/
 };
 
 
