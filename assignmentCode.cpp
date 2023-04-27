@@ -83,7 +83,7 @@ public:
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
         }
     }
-    void addNewTransaction(Object obj[], int& num) {
+    void addNewTransaction(objectHandler obj[], int& num) {
     if (num < 25) { // check if array is full
         // prompt user for input of transaction values
             std::string ISBN = "no value";
