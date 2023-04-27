@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -35,6 +36,8 @@ class objectHandler {
 private:
     Transaction object [25];
     int tempNum;
+    vector<Transaction> transactions;
+
 public:
     objectHandler() {
         tempNum = 0;
@@ -85,6 +88,17 @@ public:
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
         }
     }
+    void addTransaction(Transaction transaction) {
+      transactions.push_back(transaction);
+    }
+
+    vector<Transaction> getTransactions() {
+      return transactions;
+    }
+
+
+    //void TransactionList::addTransaction(Transaction transaction) {transactions.push_back(transaction);}
+
     /*
     void createNewTransaction(int& arrnum) {
     if (tempNum < 25) { // check if array is full
@@ -154,8 +168,6 @@ int main(){
 
     //title
     flush();   //if your not using VS code, pls use this code
-
-    objectHandler handler;
     string ISBN = "no value";
     std::string author = "no value", title_book = "no value", usedornot = "no value";
     string enrolled = "no value", prices_book = "no value", required = "no value";
@@ -252,6 +264,8 @@ int main(){
             }
             cout << "\n";
 
+            objectHandler handler;
+
             Transaction tran;
             tran.ISBN = ISBN;
             tran.author = author;
@@ -260,7 +274,25 @@ int main(){
             tran.enrolled = enrolled;
             tran.prices_book = prices_book;
             tran.required = required;
-            transactions[numarr] = tran;
+            //transactions[arrnum] = tran;
+            Transaction transaction = Transaction(ISBN, author, title_book, usedornot, enrolled, prices_book, required);
+            
+            handler.addTransaction(transaction);
+            //handler.addObject(transaction);
+
+            vector<Transaction> transactions = handler.getTransactions();
+            for (int i = 0; i < transactions.size(); i++) {
+                cout << "Transaction " << i + 1 << ":" << endl;
+                cout << "ISBN: " << transactions[i].ISBN << endl;
+                cout << "Author: " << transactions[i].author << endl;
+                cout << "Title: " << transactions[i].title_book << endl;
+                cout << "Used: " << transactions[i].usedornot << endl;
+                cout << "Enrolled: " << transactions[i].enrolled << endl;
+                cout << "Price: " << transactions[i].prices_book << endl;
+                cout << "Required: " << transactions[i].required << endl;
+    }
+
+
 
             break;
             }
