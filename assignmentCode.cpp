@@ -24,6 +24,8 @@ void flush();
 void userChoice();
 string output_screen(string ISBN, string author, string title_book, 
                    string enrolled, string required, string prices_book, string usedornot);
+string formatting_screen (string ISBN, string author, string title_book, 
+                   string enrolled, string required, string prices_book, string usedornot);
 string tolower (string value);
 
 
@@ -67,14 +69,17 @@ public:
     objectHandler() {
         tempNum = 0;
     }
-    void printObject() {
+    
+    string printObject() {
         // loop through the object array and print each instance within the array
-        cout << "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired" << endl;
+        string printingObject = "";
+        printingObject += "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired\n";
         for (int i = 0; i < tempNum; i++) {
-            cout << output_screen(object[i].ISBN, object[i].author, object[i].title_book, 
+            printingObject += formatting_screen(object[i].ISBN, object[i].author, object[i].title_book, 
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
-            cout << "\n" <<endl;
+            printingObject += "\n";
         }
+        return printingObject;
     }
     void addTransaction(Transaction transaction) {
         if (tempNum < 25) {
@@ -278,6 +283,8 @@ int main(){
     main_menu_screen();
     continue;
 }
+    
+    /*
     case '3': //edit screen
     {
         flush();
@@ -370,6 +377,74 @@ int main(){
         main_menu_screen();
         continue;
     }
+    */
+
+   case '3':
+   {
+        flush();
+        title();
+        cout << "\t<<<edit screen>>>\n" << endl;
+        const char* arrangement = "press '1' to edit\n"
+        "press '2' to print onto a prn file\n"
+        "press '3' to sort your transactions\n";
+        cout << arrangement << endl; 
+
+        char temp;
+        cin >> temp;
+        //creates and set the the temp variable to what ever the user inputs
+
+        switch(temp){
+        case '1': // edit
+        {
+            continue;
+        }
+        case '2': // forward to prn
+        {
+            string theResults = handler.printObject();;
+            //theResults += handler.printObject();
+            ofstream outfile("result.prn", ios::trunc); // if there isn't a output.prn file it'll create one, if there is one, it'll clear the entire file
+            //const char* theResults = handler.printObject();
+            outfile << theResults;
+            outfile.close(); // closes the file
+            continue;
+            
+        }
+        case '3': // sorting
+        {
+
+            cin >> temp;
+            switch (temp)
+            {
+            case '1':
+            {
+
+                continue;            
+            }
+                /* code */
+            case '2':{
+
+                continue;
+            }   
+            default:
+                cout << "sorry an error has occured, you will be taken back to the menu screen" << endl;
+                break;
+            }
+            
+        }
+        default:
+        {
+            cout << "sorry an error has occured, you will be taken back to the menu screen" << endl;
+            continue;
+        }
+
+        }
+
+        cout << "press enter to continue back to the main menu"<< endl;
+        cin.get();
+        flush();
+        main_menu_screen();        
+        continue;
+   }
 
     case '4': //exit screen
     {
@@ -379,7 +454,7 @@ int main(){
         //the 4th case brings the user to the exit screen and terminates the code
     }
 
-    case '5':
+    case '5': //prints out all elements within the object array
     {
         handler.printObject();
         cout << "press enter to continue back to the main menu"<< endl;
@@ -464,6 +539,17 @@ string output_screen(string ISBN, string author, string title_book,
     
     return outputToFile.str();
 }
+
+string formatting_screen (string ISBN, string author, string title_book, 
+                   string enrolled, string required, string prices_book, string usedornot){
+                   //"ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired\n"
+
+                   string screen = ISBN + "\t\t" + author + "\t\t" + title_book + "\t\t" + enrolled + "\t\t" + 
+                                    required + "\t\t" + prices_book + "\t\t" + usedornot;
+                    
+                    return screen;
+
+                   }
 
 // takes some of the inputs converts them into ints and doubles, then takes some inputs to the calculation and amountofbooks methods for a number value
 // all of this will be added to a stream string variable then once its finished adding to the stream it returns the stream string value
@@ -566,6 +652,7 @@ void flush (){
     cout << "\t\t\t\t resetting screen please wait \t\t\t\t\n\n\n\n\n\n\n\n\n" <<endl;
 }
 // a command that is supposed to help clear the terminal
+
 
 /*
 void arraytime(){
