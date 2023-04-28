@@ -27,7 +27,7 @@ string output_screen(string ISBN, string author, string title_book,
 string formatting_screen (string ISBN, string author, string title_book, 
                    string enrolled, string required, string prices_book, string usedornot);
 string tolower (string value);
-void edit(Inventory &handler);
+void edit(Transaction* handler);
 
 
 struct Transaction {
@@ -116,25 +116,25 @@ public:
 
     void editItem(int arrnum, string variable, string newvalue) 
     {
-        if(variable == "ISBN"){
+        if(variable == "1"){
             object[arrnum].ISBN = newvalue;
         }
-        else if(variable == "author"){
+        else if(variable == "2"){
             object[arrnum].author = newvalue;
         }
-        else if(variable == "title_book"){
+        else if(variable == "3"){
             object[arrnum].title_book = newvalue;
         }
-        else if(variable == "usedornot"){
+        else if(variable == "4"){
             object[arrnum].usedornot = newvalue;
         }
-        else if(variable == "enrolled"){
+        else if(variable == "5"){
             object[arrnum].enrolled = newvalue;
         }
-        else if(variable == "prices_book"){
+        else if(variable == "6"){
             object[arrnum].prices_book = newvalue;
         }
-        else if(variable == "required"){
+        else if(variable == "7"){
             object[arrnum].required = newvalue;
         }
         else{
@@ -513,16 +513,16 @@ string formatting_screen (string ISBN, string author, string title_book,
 
                    }
 
-void edit(Inventory &handler) {
+void edit(Transaction* handler) {
     int itemIndex;
     string newInput;
+    string variable;
     //cout << "Enter the item index you would like to edit: ";
 
     //int arrnum, string variable, string newValue)
     //     position of the array, variable being changed, new value for that element within the array
 
     int ting = 0;
-    string newInput;
     while(ting <= 0) {
         cout << "between 1-25, please select what transaction you want to change" << endl;
         string userChoice;
@@ -547,7 +547,7 @@ void edit(Inventory &handler) {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::getline(std::cin, newInput);
 
-            handler.editItem(userChoice-1, variable, newInput)
+            handler.editItem(atoi(userChoice.c_str())-1, variable, newInput)
         }
         else
         {
