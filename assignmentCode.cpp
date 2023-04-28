@@ -27,12 +27,11 @@ string output_screen(string ISBN, string author, string title_book,
 string formatting_screen (string ISBN, string author, string title_book, 
                    string enrolled, string required, string prices_book, string usedornot);
 string tolower (string value);
+void edit(Inventory &handler);
 
 
 struct Transaction {
     string ISBN, author, title_book, usedornot, enrolled , prices_book , required;
-    int quantity;
-    double price;
 
     Transaction() {
         ISBN = "";
@@ -42,8 +41,6 @@ struct Transaction {
         enrolled = "";
         prices_book = "";
         required = "";
-        quantity = 0;
-        price = 0.0;
     }
 
     Transaction(string ISBN, string author, string title_book, string usedornot, string enrolled, 
@@ -56,6 +53,32 @@ struct Transaction {
         this->prices_book = prices_book;
         this->required = required;
     }
+    Transaction(string newvalue, string variable){
+        if(variable == "ISBN"){
+            ISBN = newvalue;
+        }
+        else if(variable == "author"){
+            author = newvalue;
+        }
+        else if(variable == "title_book"){
+            title_book = newvalue;
+        }
+        else if(variable == "usedornot"){
+            usedornot = newvalue;
+        }
+        else if(variable == "enrolled"){
+            enrolled = newvalue;
+        }
+        else if(variable == "prices_book"){
+            prices_book = newvalue;
+        }
+        else if(variable == "required"){
+            required = newvalue;
+        }
+        else{
+        }
+    }
+
 };
 
 
@@ -90,6 +113,35 @@ public:
             cout << "Error: transaction list is already full." << endl;
         }
     }
+
+    void editItem(int arrnum, string variable, string newvalue) 
+    {
+        if(variable == "ISBN"){
+            object[arrnum].ISBN = newvalue;
+        }
+        else if(variable == "author"){
+            object[arrnum].author = newvalue;
+        }
+        else if(variable == "title_book"){
+            object[arrnum].title_book = newvalue;
+        }
+        else if(variable == "usedornot"){
+            object[arrnum].usedornot = newvalue;
+        }
+        else if(variable == "enrolled"){
+            object[arrnum].enrolled = newvalue;
+        }
+        else if(variable == "prices_book"){
+            object[arrnum].prices_book = newvalue;
+        }
+        else if(variable == "required"){
+            object[arrnum].required = newvalue;
+        }
+        else{
+        }
+    }
+
+
 
     vector<Transaction> getTransactions() {
       return transactions;
@@ -283,101 +335,6 @@ int main(){
     main_menu_screen();
     continue;
 }
-    
-    /*
-    case '3': //edit screen
-    {
-        flush();
-        title();
-        cout << "\t<<<edit screen>>>\n" << endl;
-        cout << "what would you like to edit:\n" <<endl;
-        const char* listofchange = 
-        "'1' for chaging ISBN/barcode\n"
-        "'2' for changing title of the book\n"
-        "'3' for changing the authors name\n"
-        "'4' for changing number of students\n"
-        "'5' for changing the price of the book\n"
-        "'6' is to let us know if you want a new or used book\n"
-        "'7' is to let us know if the book is required\n"
-        "and 'q' is to exit this screen";
-        cout << listofchange <<endl;
-        //tells the user the options they have
-
-        char temp;
-        cin >> temp;
-        //creates and set the the temp variable to what ever the user inputs
-
-        switch(temp){
-            case '1':
-            {
-                cout << "enter the ISBN (barcode) :   " << endl;
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, ISBN);
-                break;
-            }
-            case '2':
-            {
-                cout << "enter the title of the book \n";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, title_book);
-                break;
-                
-            }
-            case '3':
-            {
-                cout << "enter the authors name " << endl;
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, author);    
-                break;       
-            }
-            case '4':
-            {
-                cout << "enter the number of students in your class " << endl;
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, enrolled);
-                break;
-                
-            }
-            case '5':
-            {
-                cout << "enter the prices of the book " << endl;
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, prices_book);  
-                break;         
-                
-            }
-            case '6':
-            {
-                cout << "enter 'new' if you want to book to be new, otherwise type something else " << endl;
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, usedornot);
-                break;
-                
-            }
-            case '7':
-            {
-                cout << "enter 'required' if the book is required, otherwise type something else " << endl;
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::getline(std::cin, required);
-                break;
-            }
-            case 'q':
-            {
-                break;
-            }
-            default:
-            {
-                cout << "sorry the input you entered was not recognized, please enter a number 1-6 to edit or 'q' to quit";
-                cout << "you will now be taken back to the main menu" <<endl;
-            }
-        }
-        // grabs a specific variable that the user wants to change, then sets that variable to the new input the user typed in
-
-        flush();
-        main_menu_screen();
-        continue;
-    }
-    */
 
    case '3':
    {
@@ -396,6 +353,11 @@ int main(){
         switch(temp){
         case '1': // edit
         {
+            flush();
+            title();
+            cout << "\t<<<edit screen>>>\n" << endl;
+            edit(handler);            
+            
             continue;
         }
         case '2': // forward to prn
@@ -551,6 +513,55 @@ string formatting_screen (string ISBN, string author, string title_book,
 
                    }
 
+void edit(Inventory &handler) {
+    int itemIndex;
+    string newInput;
+    //cout << "Enter the item index you would like to edit: ";
+
+    //int arrnum, string variable, string newValue)
+    //     position of the array, variable being changed, new value for that element within the array
+
+    int ting = 0;
+    string newInput;
+    while(ting <= 0) {
+        cout << "between 1-25, please select what transaction you want to change" << endl;
+        string userChoice;
+        cin >> userChoice;
+        if(isdigit(userChoice[0]) && (userChoice[0] - '0') < 26 && (userChoice[0] - '0') > 0){
+            cout << "\t<<<edit screen>>>\n" << endl;
+            cout << "what would you like to edit:\n" <<endl;
+            const char* listofchange = 
+            "'1' for chaging ISBN/barcode\n"
+            "'2' for changing title of the book\n"
+            "'3' for changing the authors name\n"
+            "'4' for changing number of students\n"
+            "'5' for changing the price of the book\n"
+            "'6' is to let us know if you want a new or used book\n"
+            "'7' is to let us know if the book is required\n"
+            "and 'q' is to exit this screen";
+            cout << listofchange <<endl;
+            cin >> variable;
+
+            cout << "\nnow type what you want to change the value to" <<endl;
+
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::getline(std::cin, newInput);
+
+            handler.editItem(userChoice-1, variable, newInput)
+        }
+        else
+        {
+            cout << "please note that the first character in the word / number will be put" <<endl;
+            cout << "the algorithm to check which transaction is being changed" <<endl;
+        }
+
+    }
+
+    //cin.ignore();
+}
+
+
+
 // takes some of the inputs converts them into ints and doubles, then takes some inputs to the calculation and amountofbooks methods for a number value
 // all of this will be added to a stream string variable then once its finished adding to the stream it returns the stream string value
 
@@ -654,22 +665,10 @@ void flush (){
 // a command that is supposed to help clear the terminal
 
 
-/*
-void arraytime(){
-    cout << "enter 25 words or numbers to be arranged"<<endl;
-    for (int i = 0; i < universalstring.length(); i++ ){
-        cout << "string number " << i+1 << " : "<< endl;
-        getline(cin, universalstring[i]);
-    }
-}
 
-void printarray(string arr[]){
-    int size = std::sizeof[arr];
-    for (int i=0; i < size; i++){
-        cout << arr[i] << " ";
-    }
-}
-*/
+
+ // future code, incase something goes wrong
+/*
 
 /*
 string output_screen(string ISBN, string author, string title_book, 
