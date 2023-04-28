@@ -27,7 +27,6 @@ string output_screen(string ISBN, string author, string title_book,
 string formatting_screen (string ISBN, string author, string title_book, 
                    string enrolled, string required, string prices_book, string usedornot);
 string tolower (string value);
-void edit(Transaction* handler);
 
 
 struct Transaction {
@@ -93,10 +92,11 @@ public:
         tempNum = 0;
     }
     
+    
     string printObject() {
         // loop through the object array and print each instance within the array
         string printingObject = "";
-        printingObject += "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired\n";
+        printingObject += "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tRequired\t\ttotal price\tbooks needed\n";
         for (int i = 0; i < tempNum; i++) {
             printingObject += formatting_screen(object[i].ISBN, object[i].author, object[i].title_book, 
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
@@ -104,6 +104,103 @@ public:
         }
         return printingObject;
     }
+
+    void sortByCost(int maxlength) {
+
+    Transaction arr;
+
+    for (int i = 0; i < maxlength-1; i++) {
+        for (int j = i+1; j < maxlength; j++) {
+            if (atof((object[j].prices_book).c_str()) < atof((object[i].prices_book).c_str())) {
+                // swap the object[i] and object[j]
+                arr = object[i];
+                object[i] = object[j];
+                object[j] = arr;
+            }
+
+        }
+    }
+    }
+    void sortByFinalCost(int maxlength) {
+
+    Transaction arr;
+
+    for (int i = 0; i < maxlength-1; i++) {
+        for (int j = i+1; j < maxlength; j++) {
+            if ( calculation(atof((object[j].prices_book).c_str()), atoi(object[j].enrolled.c_str()), object[j].required, object[j].usedornot) < 
+                    calculation(atof((object[i].prices_book).c_str()), atoi(object[i].enrolled.c_str()), object[i].required, object[i].usedornot) ) {
+
+                // swap the object[i] and object[j]
+                arr = object[i];
+                object[i] = object[j];
+                object[j] = arr;
+            }
+            //calculation(newprice, newenroll, required, usedornot)
+        }
+
+        }
+}
+
+
+
+
+/*
+    string printObject() {
+    // Set the column width and alignment
+    const int col_width = 15;
+    const char separator = ' ';
+    cout << left << setw(col_width) << setfill(separator) << "ID";
+    cout << left << setw(col_width) << setfill(separator) << "ISBN";
+    cout << left << setw(col_width) << setfill(separator) << "Author";
+    cout << left << setw(col_width) << setfill(separator) << "Title";
+    cout << left << setw(col_width) << setfill(separator) << "Used";
+    cout << left << setw(col_width) << setfill(separator) << "Enrolled";
+    cout << left << setw(col_width) << setfill(separator) << "Required";
+    cout << endl;
+
+    // loop through the object array and print each instance within the array
+    string printingObject = "";
+    for (int i = 0; i < tempNum; i++) {
+        //printingObject += left + setw(col_width) + setfill(separator) + to_string(i+1);
+        string line = left + setw(col_width) + setfill(separator) + to_string(i+1);
+        printingObject += line;
+
+        printingObject += left + setw(col_width) + setfill(separator) + object[i].ISBN;
+        printingObject += left + setw(col_width) + setfill(separator) + object[i].author;
+        printingObject += left + setw(col_width) + setfill(separator) + object[i].title_book;
+        printingObject += left + setw(col_width) + setfill(separator) + object[i].usedornot;
+        printingObject += left + setw(col_width) + setfill(separator) + to_string(object[i].enrolled);
+        printingObject += left + setw(col_width) + setfill(separator) + object[i].required;
+        printingObject += "\n";
+    }
+    return printingObject;
+}
+*/
+
+/*
+string printObject() {
+    // loop through the object array and print each instance within the array
+    const int col_width = 10; // set the column width
+    const char separator = ' '; // set the separator character
+
+    string printingObject = "";
+    printingObject += "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tRequired\n";
+    for (int i = 0; i < tempNum; i++) {
+        string left = to_string(i+1);
+        printingObject = printingObject + left + " " + setprecision(col_width) + setfill(separator) + object[i].ISBN +
+                         setprecision(col_width) + setfill(separator) + object[i].author +
+                         setprecision(col_width) + setfill(separator) + object[i].title_book +
+                         setprecision(col_width) + setfill(separator) + object[i].usedornot +
+                         setprecision(col_width) + setfill(separator) + (object[i].enrolled) +
+                         setprecision(col_width) + setfill(separator) + (object[i].required) + "\n";
+    }
+
+    return printingObject;
+}
+*/
+
+
+
     void addTransaction(Transaction transaction) {
         if (tempNum < 25) {
             object[tempNum] = transaction;
@@ -140,6 +237,7 @@ public:
         else{
         }
     }
+    
 
 
 
@@ -149,12 +247,15 @@ public:
 };
 
 
+void edit(objectHandler* handler);
+
 
 int main(){
 
     //title
     objectHandler handler;
     Transaction tran;
+    int maxlength = 0;
 
 
     flush();   //if your not using VS code, pls use this code
@@ -267,20 +368,7 @@ int main(){
 
 
             handler.addTransaction(transaction);
-/*
-            vector<Transaction> transactions = handler.getTransactions();
-            for (int i = 0; i < transactions.size(); i++) {
-                cout << "Transaction " << i + 1 << ":" << endl;
-                cout << "ISBN: " << transactions[i].ISBN << endl;
-                cout << "Author: " << transactions[i].author << endl;
-                cout << "Title: " << transactions[i].title_book << endl;
-                cout << "Used: " << transactions[i].usedornot << endl;
-                cout << "Enrolled: " << transactions[i].enrolled << endl;
-                cout << "Price: " << transactions[i].prices_book << endl;
-                cout << "Required: " << transactions[i].required << endl;
-                }
-*/
-
+            maxlength++;
 
             break;
             }
@@ -356,8 +444,12 @@ int main(){
             flush();
             title();
             cout << "\t<<<edit screen>>>\n" << endl;
-            edit(handler);            
+            edit(&handler);            
             
+            cout << "press enter to continue back to the main menu"<< endl;
+            cin.get();
+            flush();
+            main_menu_screen();
             continue;
         }
         case '2': // forward to prn
@@ -368,43 +460,63 @@ int main(){
             //const char* theResults = handler.printObject();
             outfile << theResults;
             outfile.close(); // closes the file
+
+            cout << "press enter to continue back to the main menu"<< endl;
+            cin.get();
+            flush();
+            main_menu_screen();
             continue;
             
         }
         case '3': // sorting
         {
+            cout << "choose your sorting method" <<endl;
+            cout << "1 for sorting your original price from least to greatest" <<endl;
+            cout << "2 for sorting your final price from least to greatest" <<endl;
 
             cin >> temp;
             switch (temp)
             {
-            case '1':
-            {
-
+            case '1': // sort by the inputed price for least to greatest
+            {   
+                handler.sortByCost(maxlength);
+                cout << "press enter to continue back to the main menu"<< endl;
+                cin.get();
+                flush();
+                main_menu_screen();
                 continue;            
             }
-                /* code */
+                
             case '2':{
 
+                handler.sortByFinalCost(maxlength);                
+                cout << "press enter to continue back to the main menu"<< endl;
+                cin.get();
+                flush();
+                main_menu_screen();
                 continue;
             }   
             default:
                 cout << "sorry an error has occured, you will be taken back to the menu screen" << endl;
-                break;
+                
+                cout << "press enter to continue back to the main menu"<< endl;
+                cin.get();
+                flush();
+                main_menu_screen();
             }
             
         }
         default:
         {
             cout << "sorry an error has occured, you will be taken back to the menu screen" << endl;
+            cout << "press enter to continue back to the main menu"<< endl;
+            cin.get();
+            flush();
+            main_menu_screen();
             continue;
+        }       
+        
         }
-
-        }
-
-        cout << "press enter to continue back to the main menu"<< endl;
-        cin.get();
-        flush();
-        main_menu_screen();        
         continue;
    }
 
@@ -504,16 +616,20 @@ string output_screen(string ISBN, string author, string title_book,
 
 string formatting_screen (string ISBN, string author, string title_book, 
                    string enrolled, string required, string prices_book, string usedornot){
+                    double newprice = atof(prices_book.c_str());
+                    int newenroll = atoi(enrolled.c_str());
+
                    //"ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired\n"
 
                    string screen = ISBN + "\t\t" + author + "\t\t" + title_book + "\t\t" + enrolled + "\t\t" + 
-                                    required + "\t\t" + prices_book + "\t\t" + usedornot;
+                                    required + "\t\t" + prices_book + "\t\t" + usedornot + "\t\t\t\t" + 
+                                    to_string(calculation(newprice, newenroll, required, usedornot)) + "\t\t" + to_string(amountofbooks(newenroll, required, usedornot));
                     
                     return screen;
 
                    }
 
-void edit(Transaction* handler) {
+void edit(objectHandler* handler) {
     int itemIndex;
     string newInput;
     string variable;
@@ -547,7 +663,10 @@ void edit(Transaction* handler) {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::getline(std::cin, newInput);
 
-            handler.editItem(atoi(userChoice.c_str())-1, variable, newInput)
+            //handler.editItem(atoi(userChoice.c_str())-1, variable, newInput);
+            handler->editItem(atoi(userChoice.c_str())-1, variable, newInput);
+            ting++;
+
         }
         else
         {
