@@ -96,7 +96,7 @@ public:
     string printObject() {
         // loop through the object array and print each instance within the array
         string printingObject = "";
-        printingObject += "ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tRequired\t\ttotal price\tbooks needed\n";
+        printingObject += "ISBN\tAuthor\tTitle\tUsed\tEnrolled\tRequired\tOG_price\t\ttotal price\t\tbooks needed\n";
         for (int i = 0; i < tempNum; i++) {
             printingObject += formatting_screen(object[i].ISBN, object[i].author, object[i].title_book, 
                    object[i].enrolled, object[i].required, object[i].prices_book, object[i].usedornot);
@@ -121,6 +121,7 @@ public:
         }
     }
     }
+
     void sortByFinalCost(int maxlength) {
 
     Transaction arr;
@@ -141,7 +142,94 @@ public:
         }
 }
 
+    void alphabetSort(int maxlength) {
 
+        Transaction arr;
+
+        for (int i = 0; i < maxlength-1; i++) {
+            for (int j = i+1; j < maxlength; j++) {
+
+                // First compare by cost
+                if (atof((object[j].prices_book).c_str()) < atof((object[i].prices_book).c_str())) {
+                    arr = object[i];
+                    object[i] = object[j];
+                    object[j] = arr;
+                }
+
+                // If cost is the same, compare by name
+                if (atof((object[j].prices_book).c_str()) == atof((object[i].prices_book).c_str())) {
+                    if (object[j].title_book < object[i].title_book) {
+                        arr = object[i];
+                        object[i] = object[j];
+                        object[j] = arr;
+                    }
+                }
+
+            }
+        }
+    }
+
+    void searchByTitle(int maxlength, string title) {
+        bool found = false;
+        Transaction temparr[25];
+        
+
+
+        // Search for objects with matching book title
+        for (int i = 0; i < maxlength; i++) {
+            if (object[i].title_book == title) {
+                found = true;
+                temparr[i] = object[i];
+                // Display object information
+                cout << endl;
+            }
+        }
+
+        if (!found) {
+            cout << "No transactions found with book title \"" << title << "\".\n";
+        }
+        else{
+            string printingObject = "";
+            printingObject += "ISBN\tAuthor\tTitle\tUsed\tEnrolled\tRequired\tOG_price\t\ttotal price\t\tbooks needed\n";
+            for (int i = 0; i < maxlength; i++) {
+                printingObject += formatting_screen(temparr[i].ISBN, temparr[i].author, temparr[i].title_book, 
+                    temparr[i].enrolled, temparr[i].required, temparr[i].prices_book, temparr[i].usedornot);
+                printingObject += "\n";
+            }
+            cout << printingObject << endl;
+        }
+    }
+
+    void searchByAuthor(int maxlength, string author) {
+            bool found = false;
+            Transaction temparr[25];
+            
+
+
+            // Search for objects with matching book title
+            for (int i = 0; i < maxlength; i++) {
+                if (object[i].author == author) {
+                    found = true;
+                    temparr[i] = object[i];
+                    // Display object information
+                    cout << endl;
+                }
+            }
+
+            if (!found) {
+                cout << "No transactions found with book title \"" << title << "\".\n";
+            }
+            else{
+                string printingObject = "";
+                printingObject += "ISBN\tAuthor\tTitle\tUsed\tEnrolled\tRequired\tOG_price\t\ttotal price\t\tbooks needed\n";
+                for (int i = 0; i < maxlength; i++) {
+                    printingObject += formatting_screen(temparr[i].ISBN, temparr[i].author, temparr[i].title_book, 
+                        temparr[i].enrolled, temparr[i].required, temparr[i].prices_book, temparr[i].usedornot);
+                    printingObject += "\n";
+                }
+                cout << printingObject << endl;
+            }
+        }
 
 
 /*
@@ -424,7 +512,7 @@ int main(){
     continue;
 }
 
-   case '3':
+   case '3': // search, sort, print, and edit
    {
         flush();
         title();
@@ -487,7 +575,7 @@ int main(){
                 continue;            
             }
                 
-            case '2':{
+            case '2':{ // sort by the total price from least to greatest
 
                 handler.sortByFinalCost(maxlength);                
                 cout << "press enter to continue back to the main menu"<< endl;
@@ -495,8 +583,18 @@ int main(){
                 flush();
                 main_menu_screen();
                 continue;
+            }
+            case '3': // sort by alphebetical order
+            {
+                handler.alphabetSort(maxlength);
+                cout << "press enter to continue back to the main menu"<< endl;
+                cin.get();
+                flush();
+                main_menu_screen();
+                continue;
             }   
             default:
+            {
                 cout << "sorry an error has occured, you will be taken back to the menu screen" << endl;
                 
                 cout << "press enter to continue back to the main menu"<< endl;
@@ -504,7 +602,51 @@ int main(){
                 flush();
                 main_menu_screen();
             }
+            }
             
+        }
+        case '4': // searching
+        {
+            cin >> temp;
+            switch (temp){
+                case '1': // search for book title
+                {
+                    string john = "";
+                    cout << "enter the title of the book to return all transactions with that book name: " << endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clears previous inputs that may claug the input status allowing the next input to not be skipped
+                    std::getline(std::cin, john);
+                    handler.searchByTitle(maxlength, john);
+
+
+                    cout << "press enter to continue back to the main menu"<< endl;
+                    cin.get();
+                    flush();
+                    main_menu_screen();
+                    continue;
+                }
+                case '2': // search for author of the book
+                {
+                    string john = "";
+                    cout << "enter the author of the book to return all transactions with that author's name: " << endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clears previous inputs that may claug the input status allowing the next input to not be skipped
+                    std::getline(std::cin, john);
+                    handler.searchByAuthor(maxlength, john);
+
+
+                    cout << "press enter to continue back to the main menu"<< endl;
+                    cin.get();
+                    flush();
+                    main_menu_screen();
+                    continue;
+
+                }
+            
+            default:
+            {
+
+            }
+            }
+
         }
         default:
         {
@@ -526,16 +668,6 @@ int main(){
         timelock++;
         break;
         //the 4th case brings the user to the exit screen and terminates the code
-    }
-
-    case '5': //prints out all elements within the object array
-    {
-        handler.printObject();
-        cout << "press enter to continue back to the main menu"<< endl;
-        cin.get();
-        flush();
-        main_menu_screen();
-        continue;
     }
 
     default:
@@ -590,7 +722,7 @@ void error_screen(){
 
 void main_menu_screen(){
     cout << "\t\t\t<<<Main Menu>>>" <<endl;
-    cout << "\tenter '1' for the input screen\n\tenter '2' to update the output.prn file\n\tenter '3' to change a variable\n\tenter '4' to exit\n" << endl;
+    cout << "\tenter '1' for the input screen\n\tenter '2' to update the output.prn file\n\tenter '3' to edit and sort\n\tenter '4' to exit\n" << endl;
 }
 
 string output_screen(string ISBN, string author, string title_book, 
@@ -621,9 +753,9 @@ string formatting_screen (string ISBN, string author, string title_book,
 
                    //"ID\tISBN\tAuthor\tTitle\tUsed\tEnrolled\tPrice\tRequired\n"
 
-                   string screen = ISBN + "\t\t" + author + "\t\t" + title_book + "\t\t" + enrolled + "\t\t" + 
-                                    required + "\t\t" + prices_book + "\t\t" + usedornot + "\t\t\t\t" + 
-                                    to_string(calculation(newprice, newenroll, required, usedornot)) + "\t\t" + to_string(amountofbooks(newenroll, required, usedornot));
+                   string screen = ISBN + "\t\t" + author + "\t\t" + title_book + "\t\t" + usedornot + "\t\t" + enrolled + "\t\t\t" +
+                                    required + "\t\t\t" + prices_book + "\t\t\t" + 
+                                    to_string(calculation(newprice, newenroll, required, usedornot)) + "\t\t\t" + to_string(amountofbooks(newenroll, required, usedornot));
                     
                     return screen;
 
