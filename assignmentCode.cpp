@@ -142,32 +142,105 @@ public:
         }
 }
 
+void alphabetSort(int maxlength) {
+    Transaction arr;
+    for (int i = 0; i < maxlength-1; i++) {
+        for (int j = i+1; j < maxlength; j++) {
+            // Compare by first character of title_book
+            if (object[j].title_book[0] < object[i].title_book[0]) {
+                arr = object[i];
+                object[i] = object[j];
+                object[j] = arr;
+            }
+        }
+    }
+}
+
+
+
+/*    UNFINISHED
+//---------------------------------------------------------------------------------
     void alphabetSort(int maxlength) {
+    Transaction arr;
 
-        Transaction arr;
+    object = rearrangeArray(maxlength);
 
-        for (int i = 0; i < maxlength-1; i++) {
-            for (int j = i+1; j < maxlength; j++) {
+    for (int i = 0; i < maxlength-1; i++) {
+        for (int j = i+1; j < maxlength; j++) {
 
-                // First compare by cost
-                if (atof((object[j].prices_book).c_str()) < atof((object[i].prices_book).c_str())) {
+            bool i_is_num = std::isdigit(object[i].title_book[0]);
+            bool j_is_num = std::isdigit(object[j].title_book[0]);
+
+            // First compare by whether the element is a number or letter
+            if (i_is_num && !j_is_num) {
+                arr = object[i];
+                object[i] = object[j];
+                object[j] = arr;
+            }
+            else if (!i_is_num && j_is_num) {
+                continue;
+            }
+            else {
+                // If both are numbers or both are letters, compare by name
+                if (object[j].title_book < object[i].title_book) {
                     arr = object[i];
                     object[i] = object[j];
                     object[j] = arr;
                 }
-
-                // If cost is the same, compare by name
-                if (atof((object[j].prices_book).c_str()) == atof((object[i].prices_book).c_str())) {
-                    if (object[j].title_book < object[i].title_book) {
-                        arr = object[i];
-                        object[i] = object[j];
-                        object[j] = arr;
-                    }
-                }
-
             }
         }
     }
+}
+
+void rearrangeArray(int maxlength) {
+
+    vector<string> numbers;
+    vector<string> letters;
+
+    // Separate numbers and letters
+    for (int i = 0; i < maxlength; i++) {
+        if (isNumber(object[i].title_book)) {
+            numbers.push_back(object[i].title_book);
+        } else {
+            letters.push_back(object[i].title_book);
+        }
+    }
+
+    // Sort numbers and letters
+    sort(numbers.begin(), numbers.end());
+    sort(letters.begin(), letters.end());
+
+    // Combine the sorted numbers and letters
+    int i = 0;
+    for (string num : numbers) {
+        object[i].title_book = num;
+        i++;
+    }
+    for (string letter : letters) {
+        object[i].title_book = letter;
+        i++;
+    }
+
+    // Sort the entire array alphabetically
+    alphabetSort(maxlength);
+
+}
+
+bool isNumber(string str) {
+    for (char c : str) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+//---------------------------------------------------------------------------------
+//within the lines work on for sorting alphebetically to sort numbers first in front of the array
+// then alphebetically sort the rest of the array
+*/
+
 
     void searchByTitle(int maxlength, string title) {
         bool found = false;
@@ -516,10 +589,11 @@ int main(){
    {
         flush();
         title();
-        cout << "\t<<<edit screen>>>\n" << endl;
+        cout << "\t<<<search-sort screen>>>\n" << endl;
         const char* arrangement = "press '1' to edit\n"
         "press '2' to print onto a prn file\n"
-        "press '3' to sort your transactions\n";
+        "press '3' to sort your transactions\n"
+        "press '4' to search for a specific transaction\n";
         cout << arrangement << endl; 
 
         char temp;
@@ -561,6 +635,8 @@ int main(){
             cout << "choose your sorting method" <<endl;
             cout << "1 for sorting your original price from least to greatest" <<endl;
             cout << "2 for sorting your final price from least to greatest" <<endl;
+            cout << "3 for sorting by alphabetical " <<endl;
+
 
             cin >> temp;
             switch (temp)
@@ -607,6 +683,9 @@ int main(){
         }
         case '4': // searching
         {
+            cout << "please enter what kind of search method you would like to use" << endl;
+            cout << "'1' for searching for a specific book title" << endl;
+            cout << "'2' for searching for a specific author" << endl;
             cin >> temp;
             switch (temp){
                 case '1': // search for book title
@@ -780,8 +859,8 @@ void edit(objectHandler* handler) {
             cout << "what would you like to edit:\n" <<endl;
             const char* listofchange = 
             "'1' for chaging ISBN/barcode\n"
-            "'2' for changing title of the book\n"
-            "'3' for changing the authors name\n"
+            "'2' for changing the authors name\n"
+            "'3' for changing title of the book\n"
             "'4' for changing number of students\n"
             "'5' for changing the price of the book\n"
             "'6' is to let us know if you want a new or used book\n"
