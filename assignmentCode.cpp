@@ -201,7 +201,8 @@ void rearrangeArray(int maxlength) {
     for (int i = 0; i < maxlength; i++) {
         if (isNumber(object[i].title_book)) {
             numbers.push_back(object[i].title_book);
-        } else {
+        } 
+        else {
             letters.push_back(object[i].title_book);
         }
     }
